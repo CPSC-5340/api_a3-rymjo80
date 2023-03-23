@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct WeatherModel : Codable {
-    let id : String
+struct WeatherModel : Codable, Identifiable {
+    let id : Int
     let main : String
-    let desription : String
+    let description : String
     let icon : String
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct WindModel : Codable {
-    let speed : String
-    let deg : String
-    let gust : String
+    let speed : Double
+    let deg : Int?
+    let gust : Double?
 }

@@ -8,12 +8,15 @@
 import Foundation
 
 struct MainModel : Codable {
-    let temp : String
-    let feels_like : String
-    let temp_min : String
-    let temp_max : String
-    let pressure : String
-    let sea_level : String
-    let grnd_level : String
-    let humidity : String
+    var id : UUID {
+        return UUID()
+    }
+    let temp : Double
+    let feels_like : Double
+    let temp_min : Double
+    let temp_max : Double
+    let pressure : Int?
+    let humidity : Int?
+    let sea_level : Int?
+    let grnd_level : Int?
 }
