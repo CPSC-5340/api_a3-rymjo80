@@ -10,6 +10,7 @@ import Foundation
 class WeatherViewModel : ObservableObject {
     
     @Published private(set) var weatherData = [CurrentWeatherModel]()
+    @Published private(set) var weatherTileArray = [WeatherTileModel]()
     @Published var hasError = false
     @Published var error : WeatherModelError?
     private let api_key = "4db4feca549bd87f16d2e52cb760a715"
@@ -26,9 +27,41 @@ class WeatherViewModel : ObservableObject {
                     return
                 }
                 self.weatherData = [results]
+                getWeatherTileArray()
             } catch {
                 self.hasError.toggle()
                 self.error = WeatherModelError.customError(error: error)
+            }
+        }
+    }
+    
+    func getWeatherTileArray() {
+//        let image_url = "https://openweathermap.org/img/wn/"
+        for weather in self.weatherData {
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone(secondsFromGMT: weather.timezone)
+            formatter.dateFormat = "h:mm:ss a"
+            
+            let sunrise = Date(timeIntervalSince1970: TimeInterval(weather.sys.sunrise))
+            let sunset = Date(timeIntervalSince1970: TimeInterval(weather.sys.sunset))
+            
+            
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(formatter.string(from: sunrise))", icon: "sunrise", label: "Sunrise"))
+            
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(formatter.string(from: sunset))", icon: "sunset", label: "Sunset"))
+            
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(String(format: "%.0f", weather.main.temp))°", icon: "thermometer", label: "Current Temp"))
+            
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(String(format: "%.0f", weather.main.feels_like))°", icon: "equal.circle", label: "Feels Like"))
+                                    
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(String(format: "%.0f", weather.main.temp_max))°", icon: "thermometer.high", label: "Max Temp*"))
+            
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(String(format: "%.0f", weather.main.temp_min))°", icon: "thermometer.low", label: "Min Temp*"))
+            
+            weatherTileArray.append(WeatherTileModel(weatherItem: "\(String(format: "%.0f", weather.wind.speed)) mph", icon: "wind", label: "Wind Speed"))
+            
+            if let humidity = weather.main.humidity {
+                weatherTileArray.append(WeatherTileModel(weatherItem: "\(humidity)%", icon: "humidity", label: "Humidity"))
             }
         }
     }

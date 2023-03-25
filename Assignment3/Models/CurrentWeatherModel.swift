@@ -18,4 +18,5 @@ struct CurrentWeatherModel : Codable, Identifiable {
     let sys : SysModel
     let name : String
     let coord : CoordModel
+    let timezone : Int
 }

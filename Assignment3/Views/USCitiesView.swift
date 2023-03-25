@@ -14,14 +14,14 @@ struct USCitiesView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(usCitiesVM.cityData) { city in
+                ForEach(usCitiesVM.cityData) { state in
                     NavigationLink {
-                        CurrentWeatherView(city: city)
+                        CurrentWeatherView(city: state)
                     } label: {
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(city.capital + ",")
-                                Text(city.abbr)
+                                Text(state.capital + ",")
+                                Text(state.abbr)
                             }
                         }
                     }
@@ -30,7 +30,7 @@ struct USCitiesView: View {
                 usCitiesVM.fetchData()
             }
             .listStyle(.grouped)
-            .navigationTitle("US Cities")
+            .navigationTitle("Weather: US Capitals")
             .alert(isPresented: $usCitiesVM.hasError, error: usCitiesVM.error) {
                 Text("")
             }
