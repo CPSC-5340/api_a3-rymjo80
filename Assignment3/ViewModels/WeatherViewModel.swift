@@ -36,7 +36,7 @@ class WeatherViewModel : ObservableObject {
     }
     
     func getWeatherTileArray() {
-//        let image_url = "https://openweathermap.org/img/wn/"
+
         for weather in self.weatherData {
             let formatter = DateFormatter()
             formatter.timeZone = TimeZone(secondsFromGMT: weather.timezone)
